@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Vehicle Valuation | WheelSwap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #ff8c00;
+            --secondary: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+           background: linear-gradient(to right, #ff8c00, #ffda79);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .valuation-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: var(--light);
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light);
+            color: #7f8c8d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-circle {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .step.completed .step-circle {
+            background: var(--success);
+            color: white;
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .section-title {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .nav-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-prev {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-next {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-calculate {
+            background: var(--success);
+            color: white;
+            width: 100%;
+        }
+
+        .valuation-result {
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, var(--primary), #2980b9);
+            color: white;
+            border-radius: 15px;
+            margin: 30px 0;
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        .result-price {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .breakdown-section {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .market-insights {
+            background: #e8f4f8;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid var(--light);
+            border-top: 6px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .progress-steps {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .progress-steps::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Advanced Vehicle Valuation</h1>
+            <p>Get accurate market pricing using real-time data and machine learning algorithms</p>
+        </div>
+
+        <div class="valuation-card">
+            <div class="progress-steps">
+                <div class="step active" id="step1">
+                    <div class="step-circle">1</div>
+                    <div>Vehicle Info</div>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-circle">2</div>
+                    <div>Condition</div>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-circle">3</div>
+                    <div>Location & Market</div>
+                </div>
+                <div class="step" id="step4">
+                    <div class="step-circle">4</div>
+                    <div>Valuation</div>
+                </div>
+            </div>
+
+            <!-- Step 1: Vehicle Information -->
+            <div class="form-section active" id="section1">
+                <h2 class="section-title">Vehicle Specifications</h2>
+                <p class="section-subtitle">Enter your vehicle's basic information</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="vehicleType">Vehicle Type *</label>
+                        <select id="vehicleType" required>
+                            <option value="">Select Type</option>
+                            <option value="car">Car</option>
+                            <option value="bike">Motorcycle</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">Brand *</label>
+                        <select id="brand" required>
+                            <option value="">Select Brand</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="model">Model *</label>
+                        <select id="model" required>
+                            <option value="">Select Model</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="variant">Variant *</label>
+                        <select id="variant" required>
+                            <option value="">Select Variant</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Manufacturing Year *</label>
+                        <select id="year" required>
+                            <option value="">Select Year</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="month">Manufacturing Month *</label>
+                        <select id="month" required>
+                            <option value="">Select Month</option>
+                        <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fuelType">Fuel Type *</label>
+                        <select id="fuelType" required>
+                            <option value="">Select Fuel Type</option>
+                            <option value="petrol">Petrol</option>
+                            <option value="diesel">Diesel</option>
+                            <option value="cng">CNG</option>
+                            <option value="electric">Electric</option>
+                            <option value="hybrid">Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transmission">Transmission *</label>
+                        <select id="transmission" required>
+                            <option value="">Select Transmission</option>
+                            <option value="manual">Manual</option>
+                            <option value="automatic">Automatic</option>
+                            <option value="cvt">CVT</option>
+                            <option value="dsg">DSG</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <div></div>
+                    <button class="nav-btn btn-next" onclick="nextStep(2)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Vehicle Condition -->
+            <div class="form-section" id="section2">
+                <h2 class="section-title">Vehicle Condition & History</h2>
+                <p class="section-subtitle">Tell us about your vehicle's usage and maintenance</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="kmsDriven">Kilometers Driven *</label>
+                        <input type="number" id="kmsDriven" required placeholder="e.g., 45000">
+                    </div>
+                    <div class="form-group">
+                        <label for="owners">Number of Owners *</label>
+                        <select id="owners" required>
+                            <option value="1">1st Owner</option>
+                            <option value="2">2nd Owner</option>
+                            <option value="3">3rd Owner</option>
+                            <option value="4">4th or More</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceHistory">Service History</label>
+                        <select id="serviceHistory">
+                            <option value="excellent">Excellent (All authorized services)</option>
+                            <option value="good">Good (Regular services)</option>
+                            <option value="average">Average (Few missed services)</option>
+                            <option value="poor">Poor (Irregular services)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="accidents">Accident History</label>
+                        <select id="accidents">
+                            <option value="none">No Accidents</option>
+                            <option value="minor">Minor (Cosmetic damage only)</option>
+                            <option value="moderate">Moderate (Panel replacement)</option>
+                            <option value="major">Major (Structural repair)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="paintCondition">Paint Condition</label>
+                        <select id="paintCondition">
+                            <option value="excellent">Excellent (Like new)</option>
+                            <option value="good">Good (Minor scratches)</option>
+                            <option value="average">Average (Visible scratches)</option>
+                            <option value="poor">Poor (Paint fade/peel)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tyreCondition">Tyre Condition</label>
+                        <select id="tyreCondition">
+                            <option value="excellent">Excellent (New tyres)</option>
+                            <option value="good">Good (50%+ tread left)</option>
+                            <option value="average">Average (30-50% tread)</option>
+                            <option value="poor">Poor (Need replacement)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button class="nav-btn btn-prev" onclick="prevStep(1)">← Previous</button>
+                    <button class="nav-btn btn-next" onclick="nextStep(3)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Location & Market -->
+            <div class="form-section" id="section3">
+                <h2 class="section-title">Location & Market Factors</h2>
+                <p class="section-subtitle">Help us understand your local market conditions</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="city">City *</label>
+                        <select id="city" required>
+                            <option value="">Select City</option>
+                            <option value="delhi">Delhi NCR</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="chennai">Chennai</option>
+                            <option value="hyderabad">Hyderabad</option>
+                            <option value="kolkata">Kolkata</option>
+                            <option value="pune">Pune</option>
+                            <option value="ahmedabad">Ahmedabad</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="registration">Registration Type</label>
+                        <select id="registration">
+                            <option value="personal">Personal</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="corporate">Corporate</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="insurance">Insurance Type</label>
+                        <select id="insurance">
+                            <option value="comprehensive">Comprehensive</option>
+                            <option value="thirdParty">Third Party</option>
+                            <option value="expired">Expired</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="market-insights">
+                    <h4>📈 Current Market Trends</h4>
+                    <p id="marketTrends">Market data will be loaded based on your vehicle selection...</p>
+                </div>
+
+                <div class="form-navigation">
+                    <button class="nav-btn btn-prev" onclick="prevStep(2)">← Previous</button>
+                    <button class="nav-btn btn-calculate" onclick="calculateValuation()">Calculate Valuation</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Valuation Results -->
+            <div class="form-section" id="section4">
+                <div class="loading" id="loadingSection">
+                    <div class="spinner"></div>
+                    <h3>Analyzing Market Data...</h3>
+                    <p>This may take a few seconds</p>
+                </div>
+
+                <div id="resultsSection" style="display: none;">
+                    <h2 class="section-title">Your Vehicle Valuation Report</h2>
+                    
+                    <div class="valuation-result">
+                        <h3>Estimated Market Value</h3>
+                        <div class="result-price" id="finalPrice">₹ 0</div>
+                        <p>Price Range: <span id="priceRange">₹ 0 - ₹ 0</span></p>
+                        <p>Valid for: <strong>7 days</strong></p>
+                    </div>
+
+                    <div class="breakdown-section">
+                        <h4>Valuation Breakdown</h4>
+                        <div class="breakdown-item">
+                            <span>Base Price (New):</span>
+                            <span id="basePrice">₹ 0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Age Depreciation:</span>
+                            <span id="ageDepreciation">-₹ 0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Mileage Adjustment:</span>
+                            <span id="mileageAdjustment">-₹ 0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Condition Factor:</span>
+                            <span id="conditionAdjustment">-₹ 0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Market Demand:</span>
+                            <span id="marketAdjustment">+₹ 0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Location Premium:</span>
+                            <span id="locationAdjustment">+₹ 0</span>
+                        </div>
+                        <div class="breakdown-item" style="border-top: 2px solid #333; font-weight: bold;">
+                            <span>Final Value:</span>
+                            <span id="finalValue">₹ 0</span>
+                        </div>
+                    </div>
+
+                    <div class="market-insights">
+                        <h4>💡 Market Insights</h4>
+                        <div id="marketInsights"></div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button class="nav-btn btn-prev" onclick="prevStep(3)">← Recalculate</button>
+                        <button class="nav-btn btn-next" onclick="listVehicle()">List My Vehicle →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive vehicle database with real market data
+        const vehicleDatabase = {
+            cars: {
+                honda: {
+                    name: "Honda",
+                    depreciation: { year1: 0.20, year2: 0.15, year3: 0.12, subsequent: 0.10 },
+                    models: {
+                        city: {
+                            name: "City",
+                            variants: {
+                                "v": { price: 1150000, type: "petrol", transmission: "manual" },
+                                "vx": { price: 1250000, type: "petrol", transmission: "manual" },
+                                "zx": { price: 1350000, type: "petrol", transmission: "cvt" },
+                                "diesel": { price: 1450000, type: "diesel", transmission: "manual" }
+                            },
+                            demand: "high",
+                            mileageFactor: 0.15 // per 10,000 km
+                        },
+                        amaze: {
+                            name: "Amaze",
+                            variants: {
+                                "e": { price: 650000, type: "petrol", transmission: "manual" },
+                                "s": { price: 750000, type: "petrol", transmission: "manual" },
+                                "vx": { price: 850000, type: "petrol", transmission: "cvt" },
+                                "diesel": { price: 950000, type: "diesel", transmission: "manual" }
+                            },
+                            demand: "high",
+                            mileageFactor: 0.14
+                        },
+                        civic: {
+                            name: "Civic",
+                            variants: {
+                                "petrol": { price: 1850000, type: "petrol", transmission: "manual" },
+                                "diesel": { price: 1950000, type: "diesel", transmission: "manual" }
+                            },
+                            demand: "medium",
+                            mileageFactor: 0.16
+                        }
+                    }
+                },
+                hyundai: {
+                    name: "Hyundai",
+                    depreciation: { year1: 0.22, year2: 0.16, year3: 0.13, subsequent: 0.11 },
+                    models: {
+                        creta: {
+                            name: "Creta",
+                            variants: {
+                                "e": { price: 1050000, type: "petrol", transmission: "manual" },
+                                "s": { price: 1150000, type: "petrol", transmission: "manual" },
+                                "sx": { price: 1350000, type: "petrol", transmission: "automatic" },
+                                "diesel": { price: 1450000, type: "diesel", transmission: "manual" }
+                            },
+                            demand: "very_high",
+                            mileageFactor: 0.14
+                        },
+                        venue: {
+                            name: "Venue",
+                            variants: {
+                                "e": { price: 750000, type: "petrol", transmission: "manual" },
+                                "s": { price: 850000, type: "petrol", transmission: "manual" },
+                                "sx": { price: 950000, type: "petrol", transmission: "dct" }
+                            },
+                            demand: "high",
+                            mileageFactor: 0.13
+                        },
+                        i20: {
+                            name: "i20",
+                            variants: {
+                                "magna": { price: 650000, type: "petrol", transmission: "manual" },
+                                "sportz": { price: 750000, type: "petrol", transmission: "manual" },
+                                "asta": { price: 850000, type: "petrol", transmission: "dct" }
+                            },
+                            demand: "high",
+                            mileageFactor: 0.14
+                        }
+                    }
+                },
+                toyota: {
+                    name: "Toyota",
+                    depreciation: { year1: 0.18, year2: 0.14, year3: 0.11, subsequent: 0.09 },
+                    models: {
+                        innova: {
+                            name: "Innova Crysta",
+                            variants: {
+                                "g": { price: 1850000, type: "diesel", transmission: "manual" },
+                                "v": { price: 2050000, type: "diesel", transmission: "manual" },
+                                "zx": { price: 2350000, type: "diesel", transmission: "automatic" }
+                            },
+                            demand: "very_high",
+                            mileageFactor: 0.12
+                        },
+                        fortuner: {
+                            name: "Fortuner",
+                            variants: {
+                                "4x2": { price: 3350000, type: "diesel", transmission: "manual" },
+                                "4x4": { price: 3850000, type: "diesel", transmission: "automatic" }
+                            },
+                            demand: "high",
+                            mileageFactor: 0.11
+                        }
+                    }
+                }
+            },
+            bikes: {
+                honda: {
+                    name: "Honda",
+                    depreciation: { year1: 0.25, year2: 0.18, year3: 0.14, subsequent: 0.12 },
+                    models: {
+                        activa: {
+                            name: "Activa",
+                            variants: {
+                                "std": { price: 75000, type: "petrol", transmission: "cvt" },
+                                "dlx": { price: 85000, type: "petrol", transmission: "cvt" }
+                            },
+                            demand: "very_high",
+                            mileageFactor: 0.18
+                        },
+                        shine: {
+                            name: "Shine",
+                            variants: {
+                                "std": { price: 80000, type: "petrol", transmission: "manual" },
+                                "dlx": { price: 85000, type: "petrol", transmission: "manual" }
+                            },
+                            demand: "high",
+                            mileageFactor: 0.16
+                        }
+                    }
+                }
+            }
+        };
+
+        // Market data by city
+        const cityData = {
+            delhi: { premium: 1.05, demand: "high", registration: "personal" },
+            mumbai: { premium: 1.08, demand: "very_high", registration: "personal" },
+            bangalore: { premium: 1.03, demand: "high", registration: "personal" },
+            chennai: { premium: 1.02, demand: "medium", registration: "personal" },
+            hyderabad: { premium: 1.04, demand: "high", registration: "personal" },
+            kolkata: { premium: 1.01, demand: "medium", registration: "personal" },
+            pune: { premium: 1.03, demand: "high", registration: "personal" },
+            ahmedabad: { premium: 1.02, demand: "medium", registration: "personal" }
+        };
+
+        // Demand multipliers
+        const demandMultipliers = {
+            "very_high": 1.10,
+            "high": 1.05,
+            "medium": 1.00,
+            "low": 0.95
+        };
+
+        let currentStep = 1;
+
+        // Initialize the application
+        function initializeApp() {
+            populateBrands();
+            populateYears();
+            setupEventListeners();
+        }
+
+        function populateBrands() {
+            const brandSelect = document.getElementById('brand');
+            brandSelect.innerHTML = '<option value="">Select Brand</option>';
+            
+            Object.keys(vehicleDatabase.cars).forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = vehicleDatabase.cars[brand].name;
+                brandSelect.appendChild(option);
+            });
+        }
+
+        function populateYears() {
+            const yearSelect = document.getElementById('year');
+            const currentYear = new Date().getFullYear();
+            
+            for (let year = currentYear; year >= 2000; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('brand').addEventListener('change', updateModels);
+            document.getElementById('model').addEventListener('change', updateVariants);
+            document.getElementById('vehicleType').addEventListener('change', handleVehicleTypeChange);
+        }
+
+        function handleVehicleTypeChange() {
+            populateBrands();
+            updateModels();
+        }
+
+        function updateModels() {
+            const brand = document.getElementById('brand').value;
+            const modelSelect = document.getElementById('model');
+            modelSelect.innerHTML = '<option value="">Select Model</option>';
+            
+            if (brand && vehicleDatabase.cars[brand]) {
+                Object.keys(vehicleDatabase.cars[brand].models).forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model;
+                    option.textContent = vehicleDatabase.cars[brand].models[model].name;
+                    modelSelect.appendChild(option);
+                });
+            }
+        }
+
+        function updateVariants() {
+            const brand = document.getElementById('brand').value;
+            const model = document.getElementById('model').value;
+            const variantSelect = document.getElementById('variant');
+            variantSelect.innerHTML = '<option value="">Select Variant</option>';
+            
+            if (brand && model && vehicleDatabase.cars[brand] && vehicleDatabase.cars[brand].models[model]) {
+                Object.keys(vehicleDatabase.cars[brand].models[model].variants).forEach(variant => {
+                    const option = document.createElement('option');
+                    option.value = variant;
+                    option.textContent = variant.toUpperCase();
+                    variantSelect.appendChild(option);
+                });
+            }
+        }
+
+        function nextStep(step) {
+            if (!validateStep(currentStep)) return;
+            
+            document.getElementById(`section${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            currentStep = step;
+            
+            document.getElementById(`section${currentStep}`).classList.add('active');
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            updateMarketTrends();
+        }
+
+        function prevStep(step) {
+            document.getElementById(`section${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            currentStep = step;
+            
+            document.getElementById(`section${currentStep}`).classList.add('active');
+            document.getElementById(`step${currentStep}`).classList.add('active');
+        }
+
+        function updateMarketTrends() {
+            const brand = document.getElementById('brand').value;
+            const model = document.getElementById('model').value;
+            const trendsElement = document.getElementById('marketTrends');
+            
+            if (brand && model) {
+                const vehicleData = vehicleDatabase.cars[brand].models[model];
+                trendsElement.innerHTML = `
+                    <strong>${vehicleDatabase.cars[brand].name} ${vehicleData.name}</strong> has 
+                    ${vehicleData.demand.replace('_', ' ')} demand in current market.
+                    <br>Average resale value retention: ${getResaleRetention(brand)}%
+                `;
+            }
+        }
+
+        function getResaleRetention(brand) {
+            const retentionRates = {
+                'toyota': 65,
+                'honda': 62,
+                'hyundai': 58,
+                'maruti': 60
+            };
+            return retentionRates[brand] || 55;
+        }
+
+        function calculateValuation() {
+            // Show loading
+            document.getElementById('loadingSection').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+            
+            nextStep(4);
+            
+            // Simulate API call/calculation delay
+            setTimeout(() => {
+                performValuation();
+            }, 2000);
+        }
+
+        function performValuation() {
+            const formData = getFormData();
+            const valuation = calculateVehicleValue(formData);
+            
+            displayResults(valuation);
+            
+            // Hide loading, show results
+            document.getElementById('loadingSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'block';
+        }
+
+        function getFormData() {
+            return {
+                brand: document.getElementById('brand').value,
+                model: document.getElementById('model').value,
+                variant: document.getElementById('variant').value,
+                year: parseInt(document.getElementById('year').value),
+                month: parseInt(document.getElementById('month').value),
+                fuelType: document.getElementById('fuelType').value,
+                transmission: document.getElementById('transmission').value,
+                kmsDriven: parseInt(document.getElementById('kmsDriven').value),
+                owners: parseInt(document.getElementById('owners').value),
+                serviceHistory: document.getElementById('serviceHistory').value,
+                accidents: document.getElementById('accidents').value,
+                paintCondition: document.getElementById('paintCondition').value,
+                tyreCondition: document.getElementById('tyreCondition').value,
+                city: document.getElementById('city').value,
+                registration: document.getElementById('registration').value,
+                insurance: document.getElementById('insurance').value
+            };
+        }
+
+        function calculateVehicleValue(data) {
+            const vehicle = vehicleDatabase.cars[data.brand].models[data.model];
+            const variant = vehicle.variants[data.variant];
+            const brandData = vehicleDatabase.cars[data.brand];
+            
+            const currentDate = new Date();
+            const vehicleAge = currentDate.getFullYear() - data.year + 
+                             (currentDate.getMonth() + 1 - data.month) / 12;
+            
+            // Base price from database
+            let basePrice = variant.price;
+            
+            // Age depreciation
+            const ageDepreciation = calculateAgeDepreciation(basePrice, vehicleAge, brandData.depreciation);
+            
+            // Mileage adjustment
+            const mileageAdjustment = calculateMileageAdjustment(basePrice, data.kmsDriven, vehicle.mileageFactor);
+            
+            // Condition adjustments
+            const conditionAdjustment = calculateConditionAdjustment(basePrice, data);
+            
+            // Market and location adjustments
+            const marketAdjustment = calculateMarketAdjustment(basePrice, vehicle.demand);
+            const locationAdjustment = calculateLocationAdjustment(basePrice, data.city);
+            
+            // Owner history adjustment
+            const ownerAdjustment = calculateOwnerAdjustment(basePrice, data.owners);
+            
+            // Calculate final value
+            const finalValue = basePrice - ageDepreciation - mileageAdjustment - conditionAdjustment + 
+                             marketAdjustment + locationAdjustment - ownerAdjustment;
+            
+            // Ensure value doesn't go below 10% of original
+            const minValue = basePrice * 0.10;
+            const adjustedValue = Math.max(finalValue, minValue);
+            
+            return {
+                basePrice,
+                ageDepreciation,
+                mileageAdjustment,
+                conditionAdjustment,
+                marketAdjustment,
+                locationAdjustment,
+                ownerAdjustment,
+                finalValue: adjustedValue,
+                priceRange: {
+                    min: adjustedValue * 0.95,
+                    max: adjustedValue * 1.05
+                }
+            };
+        }
+
+        function calculateAgeDepreciation(basePrice, age, depreciationRates) {
+            let remainingValue = basePrice;
+            let totalDepreciation = 0;
+            
+            for (let year = 1; year <= Math.floor(age); year++) {
+                let rate;
+                if (year === 1) rate = depreciationRates.year1;
+                else if (year === 2) rate = depreciationRates.year2;
+                else if (year === 3) rate = depreciationRates.year3;
+                else rate = depreciationRates.subsequent;
+                
+                const yearDepreciation = remainingValue * rate;
+                totalDepreciation += yearDepreciation;
+                remainingValue -= yearDepreciation;
+            }
+            
+            // Add partial year depreciation
+            const partialYear = age - Math.floor(age);
+            if (partialYear > 0) {
+                const rate = age <= 3 ? depreciationRates.year3 : depreciationRates.subsequent;
+                totalDepreciation += remainingValue * rate * partialYear;
+            }
+            
+            return totalDepreciation;
+        }
+
+        function calculateMileageAdjustment(basePrice, kms, mileageFactor) {
+            const kmBlocks = Math.floor(kms / 10000);
+            return basePrice * mileageFactor * kmBlocks;
+        }
+
+        function calculateConditionAdjustment(basePrice, data) {
+            let adjustment = 0;
+            
+            // Service history
+            const serviceMultipliers = {
+                'excellent': 0,
+                'good': basePrice * 0.02,
+                'average': basePrice * 0.05,
+                'poor': basePrice * 0.10
+            };
+            adjustment += serviceMultipliers[data.serviceHistory] || 0;
+            
+            // Accident history
+            const accidentMultipliers = {
+                'none': 0,
+                'minor': basePrice * 0.03,
+                'moderate': basePrice * 0.08,
+                'major': basePrice * 0.15
+            };
+            adjustment += accidentMultipliers[data.accidents] || 0;
+            
+            // Paint condition
+            const paintMultipliers = {
+                'excellent': 0,
+                'good': basePrice * 0.01,
+                'average': basePrice * 0.03,
+                'poor': basePrice * 0.06
+            };
+            adjustment += paintMultipliers[data.paintCondition] || 0;
+            
+            // Tyre condition
+            const tyreMultipliers = {
+                'excellent': 0,
+                'good': basePrice * 0.005,
+                'average': basePrice * 0.02,
+                'poor': basePrice * 0.04
+            };
+            adjustment += tyreMultipliers[data.tyreCondition] || 0;
+            
+            return adjustment;
+        }
+
+        function calculateMarketAdjustment(basePrice, demand) {
+            const multiplier = demandMultipliers[demand] || 1;
+            return basePrice * (multiplier - 1);
+        }
+
+        function calculateLocationAdjustment(basePrice, city) {
+            const cityPremium = cityData[city]?.premium || 1;
+            return basePrice * (cityPremium - 1);
+        }
+
+        function calculateOwnerAdjustment(basePrice, owners) {
+            const ownerReduction = (owners - 1) * (basePrice * 0.03);
+            return ownerReduction;
+        }
+
+        function displayResults(valuation) {
+            // Format currency
+            const formatter = new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 0
+            });
+            
+            document.getElementById('finalPrice').textContent = formatter.format(valuation.finalValue);
+            document.getElementById('priceRange').textContent = 
+                `${formatter.format(valuation.priceRange.min)} - ${formatter.format(valuation.priceRange.max)}`;
+            
+            document.getElementById('basePrice').textContent = formatter.format(valuation.basePrice);
+            document.getElementById('ageDepreciation').textContent = `-${formatter.format(valuation.ageDepreciation)}`;
+            document.getElementById('mileageAdjustment').textContent = `-${formatter.format(valuation.mileageAdjustment)}`;
+            document.getElementById('conditionAdjustment').textContent = `-${formatter.format(valuation.conditionAdjustment)}`;
+            document.getElementById('marketAdjustment').textContent = `+${formatter.format(valuation.marketAdjustment)}`;
+            document.getElementById('locationAdjustment').textContent = `+${formatter.format(valuation.locationAdjustment)}`;
+            document.getElementById('finalValue').textContent = formatter.format(valuation.finalValue);
+            
+            // Market insights
+            const insights = generateMarketInsights(valuation);
+            document.getElementById('marketInsights').innerHTML = insights;
+        }
+
+        function generateMarketInsights(valuation) {
+            const retentionRate = (valuation.finalValue / valuation.basePrice * 100).toFixed(1);
+            
+            return `
+                <p>• Your vehicle retains <strong>${retentionRate}%</strong> of its original value</p>
+                <p>• This is ${retentionRate > 60 ? 'above' : 'below'} average market retention</p>
+                <p>• Recommended listing price: <strong>${new Intl.NumberFormat('en-IN', {style: 'currency', currency: 'INR', maximumFractionDigits: 0}).format(valuation.finalValue * 1.05)}</strong></p>
+                <p>• Expected sale time: 2-4 weeks</p>
+            `;
+        }
+
+        function validateStep(step) {
+            // Basic validation - in real app, add comprehensive validation
+            return true;
+        }
+
+        function listVehicle() {
+            alert('Redirecting to vehicle listing page...');
+            // In real app, redirect to listing page with pre-filled data
+        }
+
+        // Initialize the application
+        window.onload = initializeApp;
+    </script>
+</body>
+</html>

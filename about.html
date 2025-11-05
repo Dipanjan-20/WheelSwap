@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us</title>
+  <style>
+    /* Basic Reset */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #333;
+      color: #eee;
+    }
+
+    /* Header */
+    .about-header {
+      background: linear-gradient(135deg, #555, #444);
+      padding: 50px 20px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .about-header h1 {
+      font-size: 50px;
+      margin: 0;
+    }
+
+    .about-header p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    /* Zigzag Section */
+    .zigzag-section {
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+      padding: 50px 20px;
+    }
+
+    .zigzag-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .zigzag-row:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .zigzag-image {
+      flex: 1;
+      min-width: 300px;
+      height: 300px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .zigzag-content {
+      flex: 1;
+      padding: 20px;
+      text-align: left;
+      background-color: #444;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .zigzag-content h2 {
+      margin-top: 0;
+      font-size: 28px;
+      color: #ffda79;
+    }
+
+    .zigzag-content p {
+      margin: 10px 0;
+      font-size: 18px;
+      line-height: 1.8;
+      color: #ddd;
+    }
+
+    /* Call-to-Action Section */
+    .call-to-action {
+      background: linear-gradient(135deg, #444, #555);
+      padding: 40px;
+      text-align: center;
+    }
+
+    .call-to-action h2 {
+      color: #ffda79;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .call-to-action button {
+      background-color: #ff8c00;
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .call-to-action button:hover {
+      background-color: #e57800;
+      transform: scale(1.1);
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+      .zigzag-row {
+        flex-direction: column !important;
+      }
+
+      .zigzag-image {
+        height: 200px;
+      }
+
+      .zigzag-content h2 {
+        font-size: 24px;
+      }
+
+      .zigzag-content p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="about-header">
+    <h1>About Us</h1>
+    <p>Discover who we are, our journey, and what drives us forward.</p>
+  </div>
+
+  <!-- Zigzag Sections -->
+  <div class="zigzag-section">
+  <!-- Row 1 -->
+  <div class="zigzag-row">
+    <div 
+      class="zigzag-image" 
+      style="background-image: url('https://via.placeholder.com/500x300');">
+    </div>
+    <div class="zigzag-content">
+      <h2>Our Vision</h2>
+      <p>
+        At WheelSwap, we envision a world where mobility is smarter, greener, and more accessible. 
+        Our goal is to empower riders with flexible bike swaps and sustainable transport choices.
+      </p>
+    </div>
+  </div>
+
+  <!-- Row 2 -->
+  <div class="zigzag-row">
+    <div 
+      class="zigzag-image" 
+      style="background-image: url('https://via.placeholder.com/500x300');">
+    </div>
+    <div class="zigzag-content">
+      <h2>Our Mission</h2>
+      <p>
+        Our mission is to make commuting effortless. From instant bike rentals to easy swaps, 
+        WheelSwap is committed to offering riders a seamless and hassle-free mobility experience.
+      </p>
+    </div>
+  </div>
+
+  <!-- Row 3 -->
+  <div class="zigzag-row">
+    <div 
+      class="zigzag-image" 
+      style="background-image: url('https://via.placeholder.com/500x300');">
+    </div>
+    <div class="zigzag-content">
+      <h2>Our Team</h2>
+      <p>
+        Behind WheelSwap is a passionate team of innovators and riders who believe in transforming 
+        the way people move. Our experts are dedicated to building reliable and rider-friendly solutions.
+      </p>
+    </div>
+  </div>
+
+  <!-- Row 4 -->
+  <div class="zigzag-row">
+    <div 
+      class="zigzag-image" 
+      style="background-image: url('https://via.placeholder.com/500x300');">
+    </div>
+    <div class="zigzag-content">
+      <h2>Customer Success</h2>
+      <p>
+        Thousands of riders trust WheelSwap every day. Your journey is our top priority, 
+        and we constantly innovate to give you a safer, faster, and more enjoyable ride.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Call-to-Action Section -->
+  <div class="call-to-action">
+    <h2>Ready to Experience Excellence?</h2>
+    <button>Book a Service Today</button>
+  </div>
+</body>
+</html>

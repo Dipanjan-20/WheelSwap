@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account</title>
+  <style>
+    /* Basic Styling */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #2c2c2c, #1f1f1f);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    /* Profile Section */
+    .profile-section {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .profile-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: url('default-dp.png') no-repeat center/cover;
+      border: 2px solid #ff8c00;
+      margin-right: 20px;
+    }
+
+    .profile-info {
+      font-size: 16px;
+    }
+
+    .profile-info h1 {
+      font-size: 24px;
+      margin: 0;
+      color: #ffda79;
+    }
+
+    .profile-info p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    /* Navigation Menu */
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .menu-item {
+      flex: 1 1 200px;
+      background: linear-gradient(135deg, #444, #333);
+      border-radius: 10px;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .menu-item:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #555, #444);
+    }
+
+    .menu-item img {
+      width: 40px;
+      margin-bottom: 10px;
+    }
+
+    .menu-item span {
+      font-size: 14px;
+      color: #ffda79;
+    }
+
+    /* Recently Booked Services */
+    .recent-services {
+      margin-top: 40px;
+    }
+
+    .recent-services h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #ffda79;
+    }
+
+    .service-card {
+      background: linear-gradient(135deg, #3a3a3a, #292929);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .service-info {
+      flex: 1;
+      color: #ddd;
+    }
+
+    .service-info h3 {
+      font-size: 18px;
+      margin: 0 0 5px;
+    }
+
+    .service-info p {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .rating-btn {
+      background: #ff8c00;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .rating-btn:hover {
+      background: #e57800;
+      transform: scale(1.1);
+    }
+
+    .no-orders {
+      text-align: center;
+      font-size: 16px;
+      color: #aaa;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <div class="profile-photo" id="profile-photo"></div>
+      <div class="profile-info">
+        <h1 id="username">John Doe</h1>
+        <p id="email">johndoe@example.com</p>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="menu">
+      <div class="menu-item">
+        <img src="icons/my-bookings.png" alt="My Bookings">
+        <span>My Bookings</span>
+      </div>
+      <div class="menu-item">
+        <img src="icons/service-needs.png" alt="Service Needs">
+        <span>Service Needs</span>
+      </div>
+      <div class="menu-item">
+        <img src="icons/personal-info.png" alt="Personal Information">
+        <span>Personal Information</span>
+      </div>
+      <div class="menu-item">
+        <img src="icons/help-centre.png" alt="Help Centre">
+        <span>Help Centre</span>
+      </div>
+      <div class="menu-item">
+        <img src="icons/my-activity.png" alt="My Activity">
+        <span>My Activity</span>
+      </div>
+      <div class="menu-item">
+        <img src="icons/settings.png" alt="Settings">
+        <span>Settings</span>
+      </div>
+    </div>
+
+    <!-- Recently Booked Services -->
+    <div class="recent-services" id="recent-services">
+      <h2>Recently Booked Services</h2>
+      <div class="service-card">
+        <div class="service-info">
+          <h3>Home Cleaning Service</h3>
+          <p>Booked on: 12th Dec 2024</p>
+        </div>
+        <button class="rating-btn">Rate Now</button>
+      </div>
+      <div class="service-card">
+        <div class="service-info">
+          <h3>Plumbing Service</h3>
+          <p>Booked on: 10th Dec 2024</p>
+        </div>
+        <button class="rating-btn">Rate Now</button>
+      </div>
+    </div>
+
+    <!-- If No Orders -->
+    <div class="no-orders" id="no-orders" style="display: none;">
+      No recent bookings yet. Start booking now to see them here!
+    </div>
+  </div>
+
+  <script>
+    // Simulated data - replace with dynamic backend data
+    const hasOrders = true; // Set to false to hide the recent bookings section
+    const username = "Jane Doe";
+    const email = "janedoe@example.com";
+    const profilePhoto = "user-profile.jpg"; // Use default-dp.png if no photo available
+
+    // Populate user data
+    document.getElementById("username").textContent = username;
+    document.getElementById("email").textContent = email;
+    document.getElementById("profile-photo").style.backgroundImage = `url(${profilePhoto})`;
+
+    // Show or hide recent bookings
+    if (!hasOrders) {
+      document.getElementById("recent-services").style.display = "none";
+      document.getElementById("no-orders").style.display = "block";
+    }
+  </script>
+</body>
+</html>

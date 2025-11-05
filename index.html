@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WheelSwap</title>
+  <style>
+    /* Basic Reset */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: calibri, sans-serif;
+    }
+  /* Navbar container styling */
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #333, #111);
+  padding: 15px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Logo styling */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff7f00;
+}
+
+/* Navbar links styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #f0f0f0;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ff7f00;
+}
+
+/* Button container for Sign-Up and My Account */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.signup-btn,
+.account-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.signup-btn {
+  background-color: #ff7f00;
+}
+
+.signup-btn:hover {
+  background-color: #e67800;
+  transform: scale(1.05);
+}
+
+.account-btn {
+  background-color: #444;
+  color: #fff;
+}
+
+.account-btn:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}
+
+.signup-btn {
+  background-color: #ff8c00;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.signup-btn:hover {
+  background-color: #e57800;
+  transform: scale(1.1);
+}
+
+/* Sliding Drawer Styling */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -100%; /* Hidden off-screen by default */
+  height: 100%;
+  width: 350px;
+  background: linear-gradient(135deg, #333, #111);
+  box-shadow: -3px 0 5px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  overflow-y: auto;
+  transition: right 0.4s ease;
+  z-index: 1001;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #444;
+}
+
+.close-btn {
+  font-size: 20px;
+  background: transparent;
+  border: none;
+  color: #ff7f00;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.close-btn:hover {
+  transform: scale(1.2);
+}
+
+.profile-section {
+  text-align: center;
+}
+
+.profile-section img {
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  margin: 10px 110px;
+  border: 3px solid #ff7f00;
+}
+
+.profile-section h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.profile-section p {
+  margin: 25px 0 50px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.drawer-body {
+  padding: 20px;
+}
+
+.drawer-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.drawer-menu li {
+  margin: 10px 0;
+  padding: 10px;
+  background: #444;
+  padding:2px;
+  padding-left: 24px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.drawer-menu a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 16px;
+  display: block;
+  padding: 10px 0;
+  transition: color 0.3s ease;
+}
+
+.drawer-menu a:hover {
+  color: #ff8c00;
+}
+
+
+.drawer-menu li:hover {
+  background-color: #555;
+}
+.hidden {
+  display: none;
+}
+
+#login-btn{
+
+    align-items: center;
+    width: 260px;
+    height: 36px;
+    align-content: centre;
+    padding-left: 70px;
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+
+#auth-section {
+  position: relative;
+}
+
+.profile-section {
+  margin-top: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 50px;
+      background: linear-gradient(to right, #ff8c00, #ffda79);
+      color: #333;
+    }
+    .hero h1 {
+      font-size: 48px;
+    }
+    .hero p {
+      font-size: 18px;
+      margin: 20px 0;
+    }
+    .hero .search-bar {
+      margin-top: 20px;
+    }
+    .hero input {
+      padding: 10px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .hero button {
+      padding: 10px 15px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .hero button:hover {
+      background-color: #555;
+    }
+    /* Service Buttons */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 50fr));
+      gap: 20px;
+      padding: 50px;
+    }
+    .service-card {
+      background-color: #f9f9f9;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .service-card h3 {
+      margin-bottom: 10px;
+    }
+    .service-card p {
+      display: none;
+      font-size: 14px;
+      color: #555;
+    }
+    .service-card:hover p {
+      display: block;
+    }
+  /* About Services Section */
+.about-services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(900px, 1fr));
+  gap: 20px;
+  padding: 50px;
+  background-color: #f4f4f4;
+}
+
+.service-tab {
+  background-color: #ffffff;
+  padding: 100px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s, background-color 0.3s;
+  position: relative;
+}
+
+.service-tab:hover {
+  transform: scale(1.05);
+  background-color: #ffebcc;
+}
+
+/* Service Content Layout */
+.service-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+/* Service Logo on the Left */
+.service-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  margin-right: 20px;
+  padding-right: 65px;
+  object-fit: contain;
+}
+
+/* Service Details (Middle Section) */
+.service-details {
+  flex: 1; /* Expands to take available space */
+}
+
+.service-details h3 {
+  font-size: 40px;
+  padding-bottom: 29px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.service-details p {
+  font-size: 18px;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Brand Logos on the Right */
+.brand-logos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logos img {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+  transition: transform 0.3s;
+}
+
+.brand-logos img:hover {
+  transform: scale(1.2);
+  border-color: #ff8c00;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .about-services {
+    grid-template-columns: 1fr;
+  }
+
+  .service-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .service-logo {
+    margin: 0 auto 10px auto;
+  }
+
+  .brand-logos {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10px;
+  }
+}
+
+/* Why Choose Us Section */
+.why-choose-us {
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  background: linear-gradient(135deg, #ff8c00, #ffb84d); /* Dynamic gradient background */
+  color: white;
+  padding: 50px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.why-choose-us::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+  animation: pulse-bg 6s infinite;
+  z-index: 0;
+}
+
+.why-content {
+  position: relative;
+  gap: 10px;
+  z-index: 1; /* Ensure the content is above the background */
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.why-content h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding-bottom: 40px;
+}
+
+.why-content p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.why-content ul {
+  list-style: none;
+  padding: 0;
+  font-size: 18px;
+  line-height: 2;
+}
+
+.why-content ul li {
+  margin-bottom: 10px;
+  text-align: left;
+  display: inline-block;
+  width: auto;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+
+  border-radius: 5px;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.why-content ul li:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Animation for background effect */
+@keyframes pulse-bg {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .why-content h2 {
+    font-size: 28px;
+  }
+  .why-content p {
+    font-size: 16px;
+  }
+  .why-content ul {
+    font-size: 16px;
+  }
+}
+
+
+
+    /* Footer */
+    .footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+    }
+  </style>
+</head>
+<body>
+<!-- Navbar -->
+<div class="navbar-container">
+  <div class="logo" style="padding: 20px;">WheelSwap</div>
+  <div class="navbar">
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="buy.html">Buy Vehicle</a>
+      <a href="sell.html">Sell Vehicle</a>
+      <a href="valuation.html">Valuation</a>
+      <a href="guides.html">Guides</a>
+      <a href="contact.html">Support</a>
+      <a href="about.html">About Us</a>
+    </div>
+    <div class="nav-actions">
+      <a href="signup.html"><button class="signup-btn">Sign Up</button></a>
+      <button class="account-btn" onclick="toggleDrawer()">My Account</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="drawer" class="drawer">
+  <div class="drawer-header">
+    <button class="close-btn" onclick="toggleDrawer()">&#x2715;</button>
+    <div id="auth-section">
+      <button id="login-btn" onclick="toggleProfile()">Login</button>
+      <div id="profile-section" class="profile-section hidden">
+        <img id="profile-pic" src="default-dp.png" alt="Profile Picture" />
+        <h3 id="user-name">John Doe</h3>
+        <p id="user-email">john.doe@example.com</p>
+      </div>
+    </div>
+  </div>
+  <div class="drawer-body">
+    <ul class="drawer-menu">
+      <li><a href="myListings.html">My Listings</a></li>
+      <li><a href="savedSearches.html">Saved Searches</a></li>
+      <li><a href="comparisons.html">My Comparisons</a></li>
+      <li><a href="documents.html">Docs & Checklists</a></li>
+      <li><a href="payments.html">Payments & Escrow</a></li>
+      <li><a href="settings.html">Profile Settings</a></li>
+    </ul>
+  </div>
+</div>
+
+
+
+  <!-- Hero Section -->
+<div class="hero"> 
+  <h1>Welcome to WheelSwap</h1>
+  <p>Buy & sell used cars and bikes with confidence — fair prices, easy comparisons, and guided paperwork.</p>
+  <div class="search-bar">
+    <input type="text" placeholder="Search by make, model, or year...">
+    <button>Search</button>
+  </div>
+</div>
+
+
+  <!-- Services Section -->
+  <div class="services">
+  <!-- Smart Valuation -->
+  <div class="service-card">
+    <h3>Smart Valuation</h3>
+    <p>Instantly know the fair market price of your car or bike based on model, mileage, and region.</p>
+  </div>
+  <!-- Side-by-Side Comparison -->
+  <div class="service-card">
+    <h3>Compare Vehicles</h3>
+    <p>Compare up to 4 vehicles on price, features, mileage, and ownership history before making a choice.</p>
+  </div>
+  <!-- Documentation Support -->
+  <div class="service-card">
+    <h3>Guided Documentation</h3>
+    <p>Step-by-step checklists and forms to complete your vehicle transfer without confusion.</p>
+  </div>
+  <!-- Verified Inspections -->
+  <div class="service-card">
+    <h3>Verified Inspections</h3>
+    <p>Book professional inspections and get detailed reports for added peace of mind.</p>
+  </div>
+  <!-- Easy Listings -->
+  <div class="service-card">
+    <h3>Easy Listings</h3>
+    <p>Create and manage your vehicle listings in minutes, track leads, and close deals faster.</p>
+  </div>
+</div>
+
+  <div class="about-services">
+  <!-- Smart Valuation -->
+  <div class="valuation service-tab">
+    <div class="service-content">
+      <img src="./images/valuation.jpg" alt="Valuation Logo" class="service-logo">
+      <div class="service-details">
+        <h3>Smart Valuation</h3>
+        <p>“WheelSwap’s price band was spot-on — sold my car within a week!” – Seller A</p>
+        <p><strong>Top Feature Expert:</strong> Automated Pricing Engine</p>
+        <p>Our valuation tool compares real market data to suggest a fair price for every vehicle.</p>
+      </div>
+      <div class="brand-logos">
+        <img src="brand1.png" alt="Market Data">
+        <img src="brand2.png" alt="Analytics Partner">
+        <img src="brand3.png" alt="Dealer Network">
+      </div>
+    </div>
+  </div>
+
+  <!-- Vehicle Comparison -->
+  <div class="comparison service-tab">
+    <div class="service-content">
+      <img src="./images/comparison.jpg" alt="Comparison Logo" class="service-logo">
+      <div class="service-details">
+        <h3>Vehicle Comparison</h3>
+        <p>“Being able to compare cars side by side saved me from a bad buy.” – Buyer B</p>
+        <p><strong>Top Feature Expert:</strong> Comparison Dashboard</p>
+        <p>Check price, mileage, features, and ownership history of up to 4 vehicles at once.</p>
+      </div>
+      <div class="brand-logos">
+        <img src="brand4.png" alt="Auto Partner">
+        <img src="brand5.png" alt="Comparison Tool">
+        <img src="brand6.png" alt="Verified Listings">
+      </div>
+    </div>
+  </div>
+
+  <!-- Guided Documentation -->
+  <div class="documentation service-tab">
+    <div class="service-content">
+      <img src="./images/docs.jpg" alt="Documentation Logo" class="service-logo">
+      <div class="service-details">
+        <h3>Guided Documentation</h3>
+        <p>“The checklist made ownership transfer a breeze — no hidden steps.” – Seller C</p>
+        <p><strong>Top Feature Expert:</strong> Document Assistant</p>
+        <p>Step-by-step transfer guidance with downloadable forms and state-specific requirements.</p>
+      </div>
+      <div class="brand-logos">
+        <img src="brand7.png" alt="Transport Authority">
+        <img src="brand8.png" alt="Legal Partner">
+        <img src="brand9.png" alt="Docs Verified">
+      </div>
+    </div>
+  </div>
+
+  <!-- Verified Inspections -->
+  <div class="inspection service-tab">
+    <div class="service-content">
+      <img src="./images/inspection.jpg" alt="Inspection Logo" class="service-logo">
+      <div class="service-details">
+        <h3>Verified Inspections</h3>
+        <p>“The inspection revealed hidden repairs — it saved me thousands.” – Buyer D</p>
+        <p><strong>Top Partner:</strong> Certified Garage Network</p>
+        <p>Book expert inspections and access detailed reports on vehicle condition before purchase.</p>
+      </div>
+      <div class="brand-logos">
+        <img src="brand10.png" alt="Garage Partner">
+        <img src="brand11.png" alt="Inspection Verified">
+        <img src="brand12.png" alt="Report Secure">
+      </div>
+    </div>
+  </div>
+
+  <!-- Easy Listings -->
+  <div class="listing service-tab">
+    <div class="service-content">
+      <img src="./images/listing.jpg" alt="Listing Logo" class="service-logo">
+      <div class="service-details">
+        <h3>Easy Listings</h3>
+        <p>“Created a listing in 2 minutes, got leads the same day!” – Seller E</p>
+        <p><strong>Top Feature Expert:</strong> Seller Dashboard</p>
+        <p>Post photos, set your price, and manage buyer leads in one simple dashboard.</p>
+      </div>
+      <div class="brand-logos">
+        <img src="brand13.png" alt="Dealer Support">
+        <img src="brand14.png" alt="Marketplace Verified">
+        <img src="brand15.png" alt="Seller Tools">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+ <div class="why-choose-us">
+  <div class="why-content">
+    <h2>Why Choose WheelSwap?</h2>
+    <p>
+      At WheelSwap, we make car part swapping and upgrades simple, secure, and community-driven. Whether you're looking to exchange wheels, tires, or accessories, our platform connects you with trusted enthusiasts and sellers. With verified listings, fair deals, and a smooth process, WheelSwap ensures you get the best for your ride. Join our growing community of car lovers today!
+    </p>
+    <ul>
+      <li>✔ Verified Listings & Secure Swaps</li>
+      <li>✔ Affordable & Fair Pricing</li>
+      <li>✔ Quick Matches for Your Car Needs</li>
+      <li>✔ Enthusiast-Driven Community</li>
+      <li>✔ Quality & Authenticity Assurance</li>
+    </ul>
+  </div>
+</div>
+
+  
+
+  <!-- Footer -->
+  <div class="footer">
+  <p>© 2024 WheelSwap. All rights reserved.</p>
+</div>
+
+  <script src="app.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Used Cars & Bikes | WheelSwap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .page-header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #3498db;
+            border-bottom: 3px solid #3498db;
+            font-weight: bold;
+        }
+
+        .tab:hover {
+            color: #2980b9;
+        }
+
+        /* Main Content Layout */
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+        }
+
+        /* Filters Section */
+        .filters-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+        }
+
+        .filter-group h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .filter-option:hover {
+            color: #3498db;
+        }
+
+        .filter-option input {
+            cursor: pointer;
+        }
+
+        .price-range {
+            width: 100%;
+        }
+
+        .price-inputs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .price-inputs input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* Sort and Search Bar */
+        .sort-search-bar {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+        }
+
+        .sort-select {
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        /* Vehicle Grid */
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .vehicle-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .vehicle-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .vehicle-details {
+            padding: 20px;
+        }
+
+        .vehicle-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .vehicle-price {
+            font-size: 1.5rem;
+            color: #27ae60;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .vehicle-specs {
+            display: flex;
+            justify-content: space-between;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .vehicle-location {
+            color: #95a5a6;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .view-details {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .view-details:hover {
+            background: #2980b9;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            .sort-search-bar {
+                flex-direction: column;
+            }
+            
+            .vehicle-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Find Your Perfect Vehicle</h1>
+            <p>Browse through our verified collection of used cars and bikes</p>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <button class="tab active" onclick="switchCategory('cars')">Cars</button>
+            <button class="tab" onclick="switchCategory('bikes')">Bikes</button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <!-- Filters Section -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <h3>Vehicle Type</h3>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" value="sedan"> Sedan
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="suv"> SUV
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="hatchback"> Hatchback
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="coupe"> Coupe
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="convertible"> Convertible
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Price Range</h3>
+                    <input type="range" class="price-range" min="0" max="1000000" value="500000">
+                    <div class="price-inputs">
+                        <input type="number" placeholder="Min Price" value="0">
+                        <input type="number" placeholder="Max Price" value="1000000">
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Brand</h3>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" value="toyota"> Toyota
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="honda"> Honda
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="hyundai"> Hyundai
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="maruti"> Maruti Suzuki
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="mahindra"> Mahindra
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Year</h3>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" value="2020-2023"> 2020-2023
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="2015-2019"> 2015-2019
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" value="2010-2014"> 2010-2014
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vehicles Listing Section -->
+            <div class="listing-section">
+                <!-- Sort and Search Bar -->
+                <div class="sort-search-bar">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search by make, model, or year..." onkeyup="filterVehicles()">
+                    </div>
+                    <select class="sort-select" onchange="sortVehicles(this.value)">
+                        <option value="featured">Sort by: Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="year-new">Year: Newest First</option>
+                        <option value="year-old">Year: Oldest First</option>
+                        <option value="mileage">Mileage: Low to High</option>
+                    </select>
+                </div>
+
+                <!-- Vehicles Grid -->
+                <div class="vehicle-grid" id="vehiclesGrid">
+                    <!-- Vehicle cards will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample vehicle data
+        const vehicles = [
+            {
+                id: 1,
+                type: 'car',
+                category: 'sedan',
+                title: 'Honda City i-VTEC',
+                price: 850000,
+                year: 2019,
+                mileage: '45,000 km',
+                fuel: 'Petrol',
+                transmission: 'Manual',
+                location: 'Mumbai, Maharashtra',
+                brand: 'honda'
+            },
+            {
+                id: 2,
+                type: 'car',
+                category: 'suv',
+                title: 'Hyundai Creta SX',
+                price: 1250000,
+                year: 2020,
+                mileage: '32,000 km',
+                fuel: 'Diesel',
+                transmission: 'Automatic',
+                location: 'Delhi, NCR',
+                brand: 'hyundai'
+            },
+            {
+                id: 3,
+                type: 'car',
+                category: 'hatchback',
+                title: 'Maruti Suzuki Baleno',
+                price: 550000,
+                year: 2018,
+                mileage: '38,000 km',
+                fuel: 'Petrol',
+                transmission: 'Manual',
+                location: 'Bangalore, Karnataka',
+                brand: 'maruti'
+            },
+            {
+                id: 4,
+                type: 'car',
+                category: 'suv',
+                title: 'Toyota Fortuner',
+                price: 2850000,
+                year: 2021,
+                mileage: '25,000 km',
+                fuel: 'Diesel',
+                transmission: 'Automatic',
+                location: 'Chennai, Tamil Nadu',
+                brand: 'toyota'
+            },
+            {
+                id: 5,
+                type: 'car',
+                category: 'sedan',
+                title: 'Hyundai Verna',
+                price: 950000,
+                year: 2020,
+                mileage: '28,000 km',
+                fuel: 'Petrol',
+                transmission: 'Automatic',
+                location: 'Pune, Maharashtra',
+                brand: 'hyundai'
+            },
+            {
+                id: 6,
+                type: 'car',
+                category: 'hatchback',
+                title: 'Toyota Glanza',
+                price: 650000,
+                year: 2019,
+                mileage: '35,000 km',
+                fuel: 'Petrol',
+                transmission: 'Manual',
+                location: 'Hyderabad, Telangana',
+                brand: 'toyota'
+            },
+            {
+                id: 7,
+                type: 'car',
+                category: 'suv',
+                title: 'Mahindra Scorpio',
+                price: 1150000,
+                year: 2018,
+                mileage: '52,000 km',
+                fuel: 'Diesel',
+                transmission: 'Manual',
+                location: 'Ahmedabad, Gujarat',
+                brand: 'mahindra'
+            },
+            {
+                id: 8,
+                type: 'car',
+                category: 'sedan',
+                title: 'Honda Amaze',
+                price: 600000,
+                year: 2019,
+                mileage: '40,000 km',
+                fuel: 'Diesel',
+                transmission: 'Manual',
+                location: 'Kolkata, West Bengal',
+                brand: 'honda'
+            },
+            {
+                id: 9,
+                type: 'car',
+                category: 'hatchback',
+                title: 'Maruti Swift',
+                price: 480000,
+                year: 2017,
+                mileage: '48,000 km',
+                fuel: 'Petrol',
+                transmission: 'Manual',
+                location: 'Lucknow, Uttar Pradesh',
+                brand: 'maruti'
+            },
+            {
+                id: 10,
+                type: 'car',
+                category: 'suv',
+                title: 'Toyota Innova Crysta',
+                price: 1850000,
+                year: 2019,
+                mileage: '55,000 km',
+                fuel: 'Diesel',
+                transmission: 'Automatic',
+                location: 'Jaipur, Rajasthan',
+                brand: 'toyota'
+            }
+        ];
+
+        let currentCategory = 'cars';
+        let currentVehicles = vehicles.filter(v => v.type === 'car');
+
+        // Initialize the page
+        function initializePage() {
+            renderVehicles(currentVehicles);
+        }
+
+        // Render vehicles to the grid
+        function renderVehicles(vehiclesArray) {
+            const grid = document.getElementById('vehiclesGrid');
+            grid.innerHTML = '';
+
+            vehiclesArray.forEach(vehicle => {
+                const card = document.createElement('div');
+                card.className = 'vehicle-card';
+                card.innerHTML = `
+                    <div class="vehicle-image">
+                        ${vehicle.title}
+                    </div>
+                    <div class="vehicle-details">
+                        <h3 class="vehicle-title">${vehicle.title}</h3>
+                        <div class="vehicle-price">₹${vehicle.price.toLocaleString()}</div>
+                        <div class="vehicle-specs">
+                            <span>${vehicle.year}</span>
+                            <span>${vehicle.mileage}</span>
+                            <span>${vehicle.fuel}</span>
+                        </div>
+                        <div class="vehicle-location">${vehicle.location}</div>
+                        <button class="view-details">View Details</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Switch between cars and bikes
+        function switchCategory(category) {
+            currentCategory = category;
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filter vehicles based on category
+            if (category === 'cars') {
+                currentVehicles = vehicles.filter(v => v.type === 'car');
+            } else {
+                // For demo, showing same vehicles as bikes would be added in real scenario
+                currentVehicles = vehicles.filter(v => v.type === 'car').slice(0, 5);
+            }
+            
+            renderVehicles(currentVehicles);
+        }
+
+        // Sort vehicles based on selected criteria
+        function sortVehicles(criteria) {
+            const sortedVehicles = [...currentVehicles];
+            
+            switch(criteria) {
+                case 'price-low':
+                    sortedVehicles.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sortedVehicles.sort((a, b) => b.price - a.price);
+                    break;
+                case 'year-new':
+                    sortedVehicles.sort((a, b) => b.year - a.year);
+                    break;
+                case 'year-old':
+                    sortedVehicles.sort((a, b) => a.year - b.year);
+                    break;
+                case 'mileage':
+                    sortedVehicles.sort((a, b) => {
+                        const aMileage = parseInt(a.mileage.replace(/[^\d]/g, ''));
+                        const bMileage = parseInt(b.mileage.replace(/[^\d]/g, ''));
+                        return aMileage - bMileage;
+                    });
+                    break;
+                default:
+                    // Featured - no sorting
+                    break;
+            }
+            
+            renderVehicles(sortedVehicles);
+        }
+
+        // Filter vehicles based on search input
+        function filterVehicles() {
+            const searchTerm = event.target.value.toLowerCase();
+            const filteredVehicles = currentVehicles.filter(vehicle => 
+                vehicle.title.toLowerCase().includes(searchTerm) ||
+                vehicle.brand.toLowerCase().includes(searchTerm) ||
+                vehicle.year.toString().includes(searchTerm)
+            );
+            renderVehicles(filteredVehicles);
+        }
+
+        // Initialize the page when loaded
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

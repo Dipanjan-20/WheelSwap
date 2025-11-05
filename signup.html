@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | Sahara</title>
+  <style>
+    /* Reset and basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #2e2e2e, #3e3e3e); /* Dark grey gradient */
+      color: #fff;
+      height: 100%;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #444, #222); /* Dark grey gradient for navbar */
+      padding: 15px 30px;
+    }
+
+    nav .logo h2 {
+      color: #ff7f00; /* Orange */
+      font-size: 24px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 16px;
+      padding: 8px 12px;
+      border-radius: 5px;
+    }
+
+    nav ul li a:hover,
+    nav ul li a[style*="background-color"] {
+      background-color: #ff7f00; /* Orange hover effect */
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 20px;
+    }
+
+    .left-section {
+      flex: 1;
+      text-align: center;
+      margin-right: 50px;
+    }
+
+    .left-section h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: #ffae42; /* Light orange for text */
+    }
+
+    .left-section p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .left-section img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .right-section {
+      flex: 1;
+      background: linear-gradient(135deg, #3e3e3e, #2e2e2e); /* Greyish gradient for form */
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .right-section h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #ff7f00; /* Orange */
+      text-align: center;
+    }
+
+    .signup-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+      color: #ddd; /* Light grey labels */
+    }
+
+    .signup-form input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: none;
+      background: #2c2c2c; /* Dark grey input background */
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .signup-form input:focus {
+      outline: none;
+      border: 2px solid #ff7f00; /* Orange focus effect */
+    }
+
+    .signup-form button {
+      width: 100%;
+      padding: 12px;
+      background-color: #ff7f00; /* Orange button */
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .signup-form button:hover {
+      background-color: #e67600; /* Darker orange on hover */
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #2c2c2c; /* Dark grey footer */
+    }
+
+    .footer p {
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #ff7f00; /* Orange links */
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+  <div class="logo">
+    <h2>WheelSwap</h2>
+  </div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="contact.html">Contact Us</a></li>
+    <li><a href="signup.html" style="background-color: #ff7f00; border-radius: 6px; padding: 8px 12px; color: #fff;">Sign Up</a></li>
+  </ul>
+</nav>
+
+
+  <div class="container"> 
+  <!-- Left Section -->
+  <div class="left-section">
+    <h1>Welcome to WheelSwap</h1>
+    <img src="https://via.placeholder.com/400x300" alt="Bike Swap Illustration">
+  </div>
+
+  <!-- Right Section -->
+  <div class="right-section">
+    <h2>Create Your WheelSwap Account</h2>
+    <form class="signup-form" id="signup-form">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Create a password" required>
+
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+</div>
+
+
+  <div class="footer">
+  <p>&copy; 2024 WheelSwap | <a href="privacy.html">Privacy Policy</a></p>
+</div>
+
+
+  <script src="app.js"></script>
+  
+</body>
+</html>
